@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         </Route>
 
         <Route path="view/:resumeID" element={<Preview />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </>
   );
