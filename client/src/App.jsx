@@ -1,7 +1,24 @@
-import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Layout from "./pages/Layout";
+import Dashboard from "./pages/Dashboard";
+import ResumeBuilder from "./pages/ResumeBuilder";
+import Preview from "./pages/Preview";
 
 const App = () => {
-  return <div className="text-orange-400">App</div>;
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="app" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="builder/:resumeID" element={<ResumeBuilder />} />
+        </Route>
+
+        <Route path="view/:resumeID" element={<Preview />} />
+      </Routes>
+    </>
+  );
 };
 
 export default App;
