@@ -22,9 +22,9 @@ const Hero = () => {
           </Link>
 
           <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
-            <Link to="/" className="hover:text-green-600 transition">
+            <a href="#" className="hover:text-green-600 transition">
               Home
-            </Link>
+            </a>
             <a href="#features" className="hover:text-green-600 transition">
               Features
             </a>
@@ -151,22 +151,22 @@ const Hero = () => {
 
           {/* Headline + CTA */}
           <h1 className="text-5xl md:text-6xl max-w-5xl text-center mt-4 md:leading-[70px] tracking-[-4px]">
-            Build a Job-Ready Résumé in Seconds with{" "}
+            Build Smarter Résumés with -{" "}
             <span className=" bg-linear-to-r from-green-700 to-green-300 bg-clip-text text-transparent text-nowrap font-semibold">
               Resumint{" "}
             </span>{" "}
           </h1>
 
           <p className="max-w-md text-center text-base my-7">
-            Explore a growing library of over 320+ beautifully crafted,
-            customizable components.
+            Resumint helps you craft professional, tailored résumés in seconds —
+            powered by intelligence, designed for impact.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex items-center gap-4 ">
-            <a
-              href="/"
-              className="bg-indigo-500 hover:bg-indigo-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex items-center transition-colors">
+            <Link
+              to="/app?state=register"
+              className="bg-green-500 hover:bg-green-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-green-400 flex items-center transition-colors">
               Get started
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -183,8 +183,8 @@ const Hero = () => {
                 <path d="M5 12h14"></path>
                 <path d="m12 5 7 7-7 7"></path>
               </svg>
-            </a>
-            <button className="flex items-center gap-2 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700">
+            </Link>
+            <button className="flex items-center gap-2 border border-slate-400 hover:bg-green-50 transition rounded-full px-7 h-12 text-slate-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -204,9 +204,7 @@ const Hero = () => {
             </button>
           </div>
 
-          <p className="py-6 text-slate-600 mt-14">
-            Trusting by leading brands, including
-          </p>
+          <p className="py-6 text-slate-600 mt-14">Recommended by top MNC's</p>
 
           <div
             className="flex flex-wrap justify-between max-sm:justify-center gap-6 max-w-3xl w-full mx-auto py-4"
@@ -222,15 +220,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <style>
-        {`
-                    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-                    * {
-                        font-family: 'Poppins', sans-serif;
-                    }
-                `}
-      </style>
     </>
   );
 };
