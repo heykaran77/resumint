@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 
 const App = () => {
   return (
-    <>
+    <div className="selection:bg-green-300 selection:text-slate-800">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="app" element={<Layout />}>
@@ -19,7 +19,7 @@ const App = () => {
         <Route path="view/:resumeID" element={<Preview />} />
         <Route path="login" element={<Login />} />
       </Routes>
-    </>
+    </div>
   );
 };
 
