@@ -1,5 +1,5 @@
 import { Check, Layout } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const TemplateSelector = ({ selectedTemplate, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +28,33 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
     },
   ];
 
+  const templateSelectorRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        templateSelectorRef.current &&
+        !templateSelectorRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Clean Up code when the component unmounts, Automatically called by React when the component unmounts
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={templateSelectorRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 text-sm text-green-600 bg-linear-to-br from-green-50 to-green-100 ring-green-300 hover:ring transition-all px-3 py-2 rounded-lg">
