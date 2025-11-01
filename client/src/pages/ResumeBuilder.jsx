@@ -15,6 +15,7 @@ import {
 import PersonalInfoForm from "../components/PersonalInfoForm";
 import ResumePreview from "../components/ResumePreview";
 import TemplateSelector from "../components/TemplateSelector";
+import ColorPicker from "../components/colorPicker";
 
 const ResumeBuilder = () => {
   const { resumeID } = useParams();
@@ -118,7 +119,15 @@ const ResumeBuilder = () => {
                     }
                   />
 
-                  {/* Color Picker */}
+                  <ColorPicker
+                    selectedColor={resumeData.accent_color}
+                    onChange={(accent_color) =>
+                      setResumeData((prev) => ({
+                        ...prev,
+                        accent_color,
+                      }))
+                    }
+                  />
                 </div>
                 <div className="flex items-center">
                   {activeSectionIndex !== 0 && (
