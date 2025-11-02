@@ -16,6 +16,7 @@ import PersonalInfoForm from "../components/PersonalInfoForm";
 import ResumePreview from "../components/ResumePreview";
 import TemplateSelector from "../components/TemplateSelector";
 import ColorPicker from "../components/colorPicker";
+import ProfessionalSummaryForm from "../components/ProfessionalSummaryForm";
 
 const ResumeBuilder = () => {
   const { resumeID } = useParams();
@@ -130,12 +131,14 @@ const ResumeBuilder = () => {
                   />
                 </div>
                 <div className="flex items-center">
-                  {activeSectionIndex !== 0 && (
+                  {activeSectionIndex >= 0 && (
                     <button
                       onClick={() =>
                         setActiveSectionIndex((prev) => Math.max(prev - 1, 0))
                       }
-                      className="flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all"
+                      className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${
+                        activeSectionIndex === 0 && "opacity-50"
+                      }`}
                       disabled={activeSectionIndex === 0}>
                       <ChevronLeftIcon className="size-4" />
                       Previous
@@ -159,6 +162,7 @@ const ResumeBuilder = () => {
 
               {/* form content */}
               <div className="space-y-6">
+                {/* Personal Info Form */}
                 {activeSection.id === "personal" && (
                   <div>
                     <PersonalInfoForm
@@ -171,6 +175,21 @@ const ResumeBuilder = () => {
                       }
                       removeBackground={removeBackground}
                       setRemoveBackground={setRemoveBackground}
+                    />
+                  </div>
+                )}
+                {/* Professional Summary Form */}
+                {activeSection.id === "summary" && (
+                  <div>
+                    <ProfessionalSummaryForm
+                      data={resumeData.professional_summary}
+                      onChange={(data) => {
+                        setResumeData((prev) => ({
+                          ...prev,
+                          professional_summary: data,
+                        }));
+                      }}
+                      setResumeData={setResumeData}
                     />
                   </div>
                 )}
