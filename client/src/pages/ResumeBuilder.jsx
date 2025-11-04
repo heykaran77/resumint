@@ -19,6 +19,7 @@ import ColorPicker from "../components/colorPicker";
 import ProfessionalSummaryForm from "../components/ProfessionalSummaryForm";
 import ExperienceForm from "../components/ExperienceForm";
 import EducationForm from "../components/EducationForm";
+import ProjectsForm from "../components/ProjectsForm";
 
 const ResumeBuilder = () => {
   const { resumeID } = useParams();
@@ -218,6 +219,18 @@ const ResumeBuilder = () => {
                       data={resumeData.education}
                       onChange={(education) => {
                         setResumeData((prev) => ({ ...prev, education }));
+                      }}
+                    />
+                  </div>
+                )}
+
+                {/* Project Form */}
+                {activeSection.id === "projects" && (
+                  <div>
+                    <ProjectsForm
+                      data={resumeData.project}
+                      onChange={(project) => {
+                        setResumeData((prev) => ({ ...prev, project }));
                       }}
                     />
                   </div>
