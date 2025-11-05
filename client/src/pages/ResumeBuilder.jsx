@@ -50,6 +50,25 @@ const ResumeBuilder = () => {
     }
   };
 
+  const changeResumeVisibility = () => {
+    setResumeData({ ...resumeData, public: !resumeData.public });
+  };
+
+  const shareResume = () => {
+    const frontendUrl = window.location.href.split("/app/")[0]; //localhost:5173
+    const resumeUrl = frontendUrl + "/view/" + resumeID;
+
+    if (navigator.share) {
+      navigator.share({ url: resumeUrl, text: "My Resume" });
+    } else {
+      alert("Share not supported on this browser");
+    }
+  };
+
+  const downloadResume = () => {
+    window.print();
+  };
+
   useEffect(() => {
     loadExistingResume();
   }, []);
@@ -265,11 +284,15 @@ const ResumeBuilder = () => {
             <div className="relative w-full">
               <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
                 {resumeData.public && (
-                  <button className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-r from-blue-100 to-blue-200 text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors">
-                    <Share2Icon className="size-4" />
+                  <button
+                    onClick={shareResume}
+                    className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-r from-blue-100 to-blue-200 text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors">
+                    <Share2Icon className="size-4" /> Share
                   </button>
                 )}
-                <button className="text-xs flex items-center gap-2 p-2 px-4 bg-linear-to-r from-purple-100 to-purple-200 text-purple-600 rounded-lg hover:ring ring-purple-300 transition-colors">
+                <button
+                  onClick={changeResumeVisibility}
+                  className="text-xs flex items-center gap-2 p-2 px-4 bg-linear-to-r from-purple-100 to-purple-200 text-purple-600 rounded-lg hover:ring ring-purple-300 transition-colors">
                   {resumeData.public ? (
                     <Eye className="size-4" />
                   ) : (
@@ -277,7 +300,9 @@ const ResumeBuilder = () => {
                   )}
                   {resumeData.public ? "Public" : "Private"}
                 </button>
-                <button className="text-xs flex items-center gap-2 p-2 px-4 bg-linear-to-r from-green-100 to-green-200 text-green-600 rounded-lg hover:ring ring-green-300 transition-colors">
+                <button
+                  onClick={downloadResume}
+                  className="text-xs flex items-center gap-2 p-2 px-4 bg-linear-to-r from-green-100 to-green-200 text-green-600 rounded-lg hover:ring ring-green-300 transition-colors">
                   <Download className="size-4" /> Download
                 </button>
               </div>
