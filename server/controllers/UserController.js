@@ -1,6 +1,7 @@
-import User from "../models/User";
+import User from "../models/User.js";
 import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
+import Resume from "../models/Resume.js";
 
 const generateToken = (userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
@@ -86,6 +87,20 @@ export const getUserById = async (req, res) => {
     // return user
     user.password = undefined;
     return res.status(200).json(user);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+// Controller for fetching the user resumes
+// GET : /api/users/resumes
+export const getUserResumes = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    // return user resumes
+    const resumes = Resume.find({ userId });
+    return res.status(200).json({ resumes });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

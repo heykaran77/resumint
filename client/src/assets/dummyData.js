@@ -114,7 +114,7 @@ export const dummyResumeData = [
     _id: "78e3b42c2d5ff49286cc148f",
     userId: "78d2e0bdcf2886efg03e7e98",
     title: "Jordan's Resume",
-    public: true,
+    public: false,
     professional_summary:
       "Creative and detail-oriented Frontend Engineer with 5+ years of experience crafting responsive, user-centric web applications using React, Vue, and modern CSS frameworks.",
     skills: [

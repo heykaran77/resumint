@@ -1,0 +1,85 @@
+import Resume from "../models/Resume";
+
+//Controller for creating a resume
+//POST: /api/resumes/create
+export const createResume = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { title } = req.body;
+
+    const newResume = await Resume.create({ userId, title });
+
+    return res
+      .status(201)
+      .json({ message: "Resume created successfully!", resume: newResume });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+//Controller for deleting the resume
+//POST: /api/resumes/delete
+export const deleteResume = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { resumeID } = req.params;
+
+    await Resume.findOneAndDelete({ userId, _id: resumeID });
+
+    return res.status(200).json({ message: "Resume deleted successfully!" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+//Controller for fetching the resume by ID
+//GET: /api/resumes/get
+export const getResumeById = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { resumeID } = req.params;
+
+    const resume = await Resume.findOne({ userId, _id: resumeID }).select(
+      "-__v -createdAt -updatedAt"
+    );
+
+    if (!resume) {
+      return res.status(404).json({ message: "Resume not found." });
+    }
+
+    return res.status(200).json({ resume });
+  } catch (error) {}
+};
+
+// Get resume if public
+// GET /api/resumes/public
+
+export const getPublicResumeById = async (req, res) => {
+  try {
+    const { resumeID } = req.params;
+    const resume = await Resume.findOne({ public: true, _id: resumeID });
+
+    if (!resume) {
+      return res.status(404).json({ message: "Resume not found." });
+    }
+
+    return res.status(200).json({ resume });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+
+// Controller for updating the resume
+// PUT: /api/resumes/update
+
+export const updateResume = async (req, res) => {
+    try {
+        const userId = req.userId;
+       
+
+        const updatedResume = await Resume()
+    } catch (error) {
+        
+    }
+}
