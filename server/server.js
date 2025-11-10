@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import connectDB from "./configs/db.js";
+import userRouter from "./routes/userRoutes.js";
 
 // Connect to DB
 await connectDB();
@@ -15,6 +16,7 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Server is live...");
 });
+app.use("/api/users", userRouter);
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
