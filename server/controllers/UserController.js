@@ -72,8 +72,8 @@ export const loginUser = async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 };
-//Controller for user login
-// POST: /api/users/login
+//Controller for getting user by ID
+// GET: /api/users/data
 export const getUserById = async (req, res) => {
   try {
     const userId = req.userId;
@@ -86,7 +86,6 @@ export const getUserById = async (req, res) => {
     // return user
     user.password = undefined;
     return res.status(200).json(user);
-    
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
