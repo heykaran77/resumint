@@ -23,5 +23,3 @@ app.use("/api/resumes", resumeRouter);
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
-
-//17:13
