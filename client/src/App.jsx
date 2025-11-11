@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import api from "./configs/api";
 import { login, setLoading } from "./app/features/authSlice";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const App = () => {
 
   return (
     <div className="selection:bg-green-300 selection:text-slate-800">
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="app" element={<Layout />}>
