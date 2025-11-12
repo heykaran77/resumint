@@ -1,5 +1,6 @@
 import {
   FilePenIcon,
+  LoaderIcon,
   PencilIcon,
   PlusIcon,
   Trash2Icon,
@@ -93,11 +94,21 @@ const Dashboard = () => {
   };
 
   const deleteResume = async (resumeId) => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this resume?"
-    );
-    if (confirm) {
-      setallResumes((prev) => prev.filter((resume) => resume._id !== resumeId));
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete this resume?"
+      );
+      if (confirm) {
+        const { data } = await api.delete(`/api/resumes/delete/${resumeId}`, {
+          headers: { Authorization: token },
+        });
+        setallResumes((prev) =>
+          prev.filter((resume) => resume._id !== resumeId)
+        );
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
 
@@ -266,9 +277,16 @@ const Dashboard = () => {
                 onChange={(e) => setResume(e.target.files[0])}
               />
             </div>
-            <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
-              Upload Resume{" "}
-            </button>
+            {isLoading ? (
+              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex gap-2 items-center justify-center">
+                Uploading <LoaderIcon className="animate-spin" />
+              </button>
+            ) : (
+              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+                Upload Resume{" "}
+              </button>
+            )}
+
             <XIcon
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
               onClick={() => {
