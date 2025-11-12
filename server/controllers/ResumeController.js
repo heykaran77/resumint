@@ -80,7 +80,7 @@ export const updateResume = async (req, res) => {
     const { resumeID, resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    let resumeDataCopy = JSON.parse(resumeData);
+    let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
 
     if (image) {
       const imageBufferData = fs.createReadStream(image.path);
@@ -98,7 +98,7 @@ export const updateResume = async (req, res) => {
 
       resumeDataCopy.personal_info.image = response.url;
 
-      console.log(response);
+      // console.log(response);
     }
 
     const resume = await Resume.findByIdAndUpdate(

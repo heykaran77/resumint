@@ -88,9 +88,28 @@ const Dashboard = () => {
   };
 
   const editTitle = async (e) => {
-    e.preventDefault();
-    setEditResumeId("");
-    setTitle("");
+    try {
+      e.preventDefault();
+      const { data } = await api.put(
+        "/api/resumes/update",
+        {
+          resumeID: editResumeId,
+          resumeData: { title },
+        },
+        { headers: { Authorization: token } }
+      );
+      setallResumes(
+        allResumes.map((resume) =>
+          resume._id === editResumeId ? { ...resume, title } : resume
+        )
+      );
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    } finally {
+      setEditResumeId("");
+      setTitle("");
+    }
   };
 
   const deleteResume = async (resumeId) => {
@@ -278,11 +297,13 @@ const Dashboard = () => {
               />
             </div>
             {isLoading ? (
-              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex gap-2 items-center justify-center">
+              <button
+                disabled={isLoading}
+                className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex gap-2 items-center justify-center disabled:bg-green-300">
                 Uploading <LoaderIcon className="animate-spin" />
               </button>
             ) : (
-              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+              <button className="disabled:bg-green-300 disabled:text-neutral-600 w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
                 Upload Resume{" "}
               </button>
             )}
