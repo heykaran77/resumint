@@ -133,6 +133,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadAllResumes();
+    document.title = "Resumint Dashboard";
   }, []);
 
   return (

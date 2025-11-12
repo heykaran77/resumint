@@ -25,9 +25,13 @@ import ExperienceForm from "../components/ExperienceForm";
 import EducationForm from "../components/EducationForm";
 import ProjectsForm from "../components/ProjectsForm";
 import SkillsForm from "../components/SkillsForm";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import api from "../configs/api";
 
 const ResumeBuilder = () => {
   const { resumeID } = useParams();
+  const { token } = useSelector((state) => state.auth);
   const [resumeData, setResumeData] = useState({
     _id: "",
     title: "",
@@ -43,15 +47,40 @@ const ResumeBuilder = () => {
   });
 
   const loadExistingResume = async () => {
-    const resume = dummyResumeData.find((resume) => resume._id === resumeID);
-    if (resume) {
-      setResumeData(resume);
-      document.title = resume.title;
+    try {
+      const { data } = await api.get(`/api/resumes/get/${resumeID}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      if (data.resume) {
+        setResumeData(data.resume);
+        document.title = data.resume.title;
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
 
-  const changeResumeVisibility = () => {
-    setResumeData({ ...resumeData, public: !resumeData.public });
+  const changeResumeVisibility = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("resumeID", resumeID);
+      formData.append(
+        "resumeData",
+        JSON.stringify({ public: !resumeData.public })
+      );
+
+      const { data } = await api.put(`/api/resumes/update`, formData, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setResumeData({ ...resumeData, public: !resumeData.public });
+      toast.success(data.message);
+    } catch (error) {
+      console.log("error saving resume: ", error);
+    }
   };
 
   const shareResume = () => {
