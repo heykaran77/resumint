@@ -1,3 +1,4 @@
+import { type } from "os";
 import imageKit from "../configs/imageKit.js";
 import Resume from "../models/Resume.js";
 import fs from "fs";
@@ -80,8 +81,12 @@ export const updateResume = async (req, res) => {
     const { resumeID, resumeData, removeBackground } = req.body;
     const image = req.file;
 
-    let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
-
+    let resumeDataCopy;
+    if (typeof resumeData === "string") {
+      resumeDataCopy = JSON.parse(resumeData);
+    } else {
+      resumeDataCopy = structuredClone(resumeData);
+    }
     if (image) {
       const imageBufferData = fs.createReadStream(image.path);
 
