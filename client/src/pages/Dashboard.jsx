@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import api from "../configs/api";
+import pdfToText from "react-pdftotext";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -56,10 +57,26 @@ const Dashboard = () => {
   const uploadResume = async (e) => {
     try {
       e.preventDefault();
-
+      setIsLoading(true);
+      const resumeText = await pdfToText(resume);
+      const { data } = await api.post(
+        "/api/ai/upload-resume",
+        { title, resumeText },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setTitle("");
+      setResume(null);
       setShowUploadResume(false);
-      navigate(`/app/builder/${data.resume._id}`);
-    } catch (error) {}
+      navigate(`/app/builder/${data.resumeID}`);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const editTitle = async (e) => {
