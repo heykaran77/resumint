@@ -30,7 +30,14 @@ const Dashboard = () => {
   const { user, token } = useSelector((state) => state.auth);
 
   const loadAllResumes = async () => {
-    setallResumes(dummyResumeData);
+    try {
+      const { data } = await api.get("/api/users/resumes", {
+        headers: { Authorization: token },
+      });
+      setallResumes(data.resumes);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
   };
 
   const createResume = async (e) => {
