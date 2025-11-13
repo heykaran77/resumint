@@ -213,16 +213,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-## 🤝 Support
-
-If you have any questions or need help, feel free to:
-
-- Open an issue on GitHub
-- Reach out on social media
-- Email: support@resumebuilder.com
-
----
-
 ## 📞 Contact
 
 **Author:** Karan Singh  
@@ -240,4 +230,4 @@ If you have any questions or need help, feel free to:
 
 ---
 
-**Made with ❤️ by [Karan Singh](https://github.com/heykaran77)**
+**Made with ❤️ by [heykaran77](https://github.com/heykaran77)**
