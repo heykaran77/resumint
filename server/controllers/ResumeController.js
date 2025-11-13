@@ -1,4 +1,3 @@
-import { type } from "os";
 import imageKit from "../configs/imageKit.js";
 import Resume from "../models/Resume.js";
 import fs from "fs";
