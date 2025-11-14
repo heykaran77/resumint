@@ -12,24 +12,14 @@ await connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  process.env.FRONTEND_URL || "https://your-frontend.vercel.app"
-];
+const allowedOrigins = ["http://localhost:5173"];
 
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 app.get("/", (req, res) => {
   res.send("Server is live...");
 });
-
-app.get("/api/health", (req, res) => {
-  res.json({ status: "Server is live..." });
-});
-
 app.use("/api/users", userRouter);
 app.use("/api/resumes", resumeRouter);
 app.use("/api/ai", aiRouter);
@@ -37,5 +27,3 @@ app.use("/api/ai", aiRouter);
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
-
-export default app;
