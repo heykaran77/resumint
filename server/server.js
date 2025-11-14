@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = ["http://localhost:5173"];
 
 app.use(express.json());
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 app.get("/", (req, res) => {
   res.send("Server is live...");
