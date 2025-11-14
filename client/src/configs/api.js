@@ -6,10 +6,10 @@ const getBaseURL = () => {
   }
   // For local development
   if (typeof window !== "undefined" && window.location.hostname === "localhost") {
-    return "http://localhost:5000/api";
+    return "http://localhost:5000";
   }
   // For production (same origin as frontend)
-  return `${window.location.origin}/api`;
+  return window.location.origin;
 };
 
 const api = axios.create({
