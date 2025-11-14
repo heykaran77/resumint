@@ -8,6 +8,9 @@ server/dist/
 client/build/
 server/build/
 
+# Test Folders
+client/sample-resumes
+
 # Logs
 *.log
 logs/
