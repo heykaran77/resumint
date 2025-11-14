@@ -102,6 +102,7 @@ Create `vercel.json` at the project root:
 ```
 
 **Key Configuration:**
+
 - `buildCommand`: Builds only the frontend (React with Vite)
 - `outputDirectory`: Points to the client's build output
 - `installCommand`: Installs dependencies for both root, client, and server
@@ -166,6 +167,7 @@ export default app;
 ```
 
 **Important Points:**
+
 - Uses `await connectDB()` at the top level
 - Exports the app for Vercel serverless functions
 - Only listens on a port in development mode
@@ -188,6 +190,7 @@ export default api;
 ```
 
 **Key Points:**
+
 - Uses `VITE_API_URL` environment variable in production
 - Falls back to same origin (`/api`) for dynamic deployments
 - Uses Axios for all API calls
@@ -227,6 +230,7 @@ Minimal setup with dev/build scripts for local development.
 ### client/package.json
 
 Standard Vite + React setup:
+
 ```json
 {
   "scripts": {
@@ -240,6 +244,7 @@ Standard Vite + React setup:
 ### server/package.json
 
 Node.js/Express setup:
+
 ```json
 {
   "type": "module",
@@ -259,7 +264,7 @@ Node.js/Express setup:
 Go to **Project Settings → Environment Variables** and add:
 
 | Variable | Value | Purpose |
-|----------|-------|---------|
+| --- | --- | --- |
 | `MONGODB_URI` | Your MongoDB Atlas URL | Database connection |
 | `JWT_SECRET` | Your secret key | JWT token signing |
 | `IMAGEKIT_PRIVATE_KEY` | ImageKit private key | Image management |
@@ -329,7 +334,9 @@ In the import dialog:
 2. Test frontend: Should load the React app
 3. Test backend: Try making an API request from the browser console:
    ```javascript
-   fetch('/api/health').then(r => r.json()).then(console.log)
+   fetch("/api/health")
+     .then((r) => r.json())
+     .then(console.log);
    ```
 
 ---
@@ -341,6 +348,7 @@ In the import dialog:
 **Error:** `Cannot find module '/var/task/server/controllers/userController.js'`
 
 **Solution:** Check file casing. Linux is case-sensitive:
+
 - ✅ `UserController.js` (Correct)
 - ❌ `userController.js` (Wrong if file is capitalized)
 
@@ -349,8 +357,9 @@ In the import dialog:
 **Error:** Requests going to `/api/api/users`
 
 **Solution:** In `api.js`, use correct base URL:
+
 ```javascript
-baseURL: import.meta.env.VITE_API_URL || `${window.location.origin}/api`
+baseURL: import.meta.env.VITE_API_URL || `${window.location.origin}/api`;
 ```
 
 ### Issue: CORS Errors
@@ -364,6 +373,7 @@ baseURL: import.meta.env.VITE_API_URL || `${window.location.origin}/api`
 **Error:** `MONGODB_URI env variable not set`
 
 **Solution:**
+
 1. Verify `MONGODB_URI` is in Vercel environment variables
 2. Check MongoDB IP whitelist (allow 0.0.0.0 or Vercel's IPs)
 3. Verify database user credentials
@@ -371,6 +381,7 @@ baseURL: import.meta.env.VITE_API_URL || `${window.location.origin}/api`
 ### Issue: 500 Internal Server Error
 
 **Solution:**
+
 1. Check Vercel function logs
 2. Verify all required environment variables are set
 3. Check for unhandled promise rejections in server code
@@ -380,34 +391,40 @@ baseURL: import.meta.env.VITE_API_URL || `${window.location.origin}/api`
 ## 🎓 Key Learnings
 
 ### 1. **Monorepo Structure**
-   - Root `package.json` helps Vercel coordinate builds
-   - `vercel.json` tells Vercel how to build each part
-   - `/api` folder is special in Vercel for serverless functions
+
+- Root `package.json` helps Vercel coordinate builds
+- `vercel.json` tells Vercel how to build each part
+- `/api` folder is special in Vercel for serverless functions
 
 ### 2. **Build vs Runtime**
-   - Build: Vite compiles React to static files
-   - Runtime: Vercel routes `/api/*` to Express serverless functions
-   - Frontend served as static assets, backend as functions
+
+- Build: Vite compiles React to static files
+- Runtime: Vercel routes `/api/*` to Express serverless functions
+- Frontend served as static assets, backend as functions
 
 ### 3. **Case Sensitivity**
-   - Windows: Case-insensitive file system
-   - Linux/Vercel: Case-sensitive
-   - Always match exact file names in imports
+
+- Windows: Case-insensitive file system
+- Linux/Vercel: Case-sensitive
+- Always match exact file names in imports
 
 ### 4. **CORS Configuration**
-   - Both frontend and backend need to agree on origin
-   - `FRONTEND_URL` environment variable crucial for production
-   - Wildcard origins don't work with credentials
+
+- Both frontend and backend need to agree on origin
+- `FRONTEND_URL` environment variable crucial for production
+- Wildcard origins don't work with credentials
 
 ### 5. **Environment Variables**
-   - Must be set in Vercel dashboard, not in code
-   - Different values per environment (development vs production)
-   - Critical for API endpoints, API keys, database URLs
+
+- Must be set in Vercel dashboard, not in code
+- Different values per environment (development vs production)
+- Critical for API endpoints, API keys, database URLs
 
 ### 6. **Express as Middleware**
-   - Export Express app, not start server
-   - Vercel handles request routing to `/api` handler
-   - Local development starts server normally
+
+- Export Express app, not start server
+- Vercel handles request routing to `/api` handler
+- Local development starts server normally
 
 ---
 
