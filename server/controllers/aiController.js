@@ -119,7 +119,7 @@ export const uploadResume = async (req, res) => {
       },
     ],
   }
-    `;
+    Give the dates only in this format (graduation_date: "2018-06", start_date: "2022-02", ie YYYY-MM)    `;
 
     const response = await ai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
