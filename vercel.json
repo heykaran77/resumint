@@ -1,24 +1,5 @@
 {
   "buildCommand": "cd client && npm install && npm run build",
   "outputDirectory": "client/dist",
-  "installCommand": "npm install && cd server && npm install",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "env": {
-    "MONGODB_URI": "@mongodb_uri",
-    "JWT_SECRET": "@jwt_secret",
-    "IMAGEKIT_PRIVATE_KEY": "@imagekit_private_key",
-    "IMAGEKIT_PUBLIC_KEY": "@imagekit_public_key",
-    "IMAGEKIT_URL_ENDPOINT": "@imagekit_url_endpoint",
-    "OPENAI_API_KEY": "@openai_api_key",
-    "FRONTEND_URL": "@frontend_url"
-  }
+  "installCommand": "npm install && cd server && npm install"
 }
