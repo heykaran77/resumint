@@ -6,9 +6,6 @@ import userRouter from "./routes/userRoutes.js";
 import resumeRouter from "./routes/resumeRoutes.js";
 import aiRouter from "./routes/aiRoutes.js";
 
-// Connect to DB
-await connectDB();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -22,6 +19,20 @@ const allowedOrigins = [
 app.use(express.json());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
+// Connect to DB on app startup
+let dbConnected = false;
+app.use(async (req, res, next) => {
+  if (!dbConnected) {
+    try {
+      await connectDB();
+      dbConnected = true;
+    } catch (error) {
+      console.error("Database connection error:", error);
+    }
+  }
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Server is live...");
 });
@@ -31,7 +42,7 @@ app.use("/api/users", userRouter);
 app.use("/api/resumes", resumeRouter);
 app.use("/api/ai", aiRouter);
 
-// For Vercel serverless functions
+// For local development
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`);
