@@ -16,25 +16,44 @@ const allowedOrigins = [
   process.env.FRONTEND_URL || "https://resumint-builder.vercel.app",
 ];
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-// Connect to DB on app startup
+// Global error handler middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({ message: "Server error", error: err.message });
+});
+
+// Connect to DB on first request
 let dbConnected = false;
-app.use(async (req, res, next) => {
+const ensureDBConnection = async () => {
   if (!dbConnected) {
     try {
       await connectDB();
       dbConnected = true;
+      console.log("Database connected successfully");
     } catch (error) {
       console.error("Database connection error:", error);
+      throw error;
     }
   }
-  next();
+};
+
+// Middleware to ensure DB connection
+app.use(async (req, res, next) => {
+  try {
+    await ensureDBConnection();
+    next();
+  } catch (error) {
+    console.error("DB Connection middleware error:", error);
+    res.status(503).json({ message: "Database connection failed" });
+  }
 });
 
 app.get("/", (req, res) => {
-  res.send("Server is live...");
+  res.json({ message: "Server is live..." });
 });
 
 // API Routes
@@ -42,7 +61,12 @@ app.use("/api/users", userRouter);
 app.use("/api/resumes", resumeRouter);
 app.use("/api/ai", aiRouter);
 
-// For local development
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// For local development only
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`);
