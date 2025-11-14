@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd client && npm install && npm run build",
+  "buildCommand": "npm --prefix client run build",
   "outputDirectory": "client/dist",
-  "installCommand": "npm install && cd server && npm install"
+  "installCommand": "npm install --legacy-peer-deps && npm --prefix server install --legacy-peer-deps"
 }
