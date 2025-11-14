@@ -1,6 +1,15 @@
 {
-  "buildCommand": "cd client && npm install && npm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
   "framework": "vite",
-  "installCommand": "npm install && cd server && npm install"
+  "installCommand": "npm run install:all",
+  "devCommand": "npm run dev",
+  "env": {
+    "MONGODB_URI": "@mongodb_uri",
+    "JWT_SECRET": "@jwt_secret",
+    "IMAGEKIT_PRIVATE_KEY": "@imagekit_private_key",
+    "IMAGEKIT_PUBLIC_KEY": "@imagekit_public_key",
+    "IMAGEKIT_URL_ENDPOINT": "@imagekit_url_endpoint",
+    "OPENAI_API_KEY": "@openai_api_key"
+  }
 }
